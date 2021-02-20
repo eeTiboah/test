@@ -1,0 +1,17 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #54DBFD;
+    text-align: center;
+ }
+
+ .copyright {
+    font-size: 1.4rem;
+    color: #54DBFD;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    width: 70%; 
+}
