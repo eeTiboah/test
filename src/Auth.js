@@ -16,15 +16,15 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
 
-  if(pending){
-    return (
-      <div className="hide">
-        <>Loading...</>
-      </div>
+  // if(pending){
+  //   return (
+  //     <div className="hide">
+  //       <>Loading...</>
+  //     </div>
     
-    )
+  //   )
 
-  }
+  // }
 
   return (
     <AuthContext.Provider

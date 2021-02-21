@@ -4,16 +4,14 @@ import {Map, GoogleApiWrapper, Marker} from 'google-maps-react'
 import InfoWindowEx from './LocationInfo'
 import useCurrentLocation from '../../useCurrentLocation'
 import './CompanyLocation.css'
+import axios from 'axios'
 
 const CompanyLocation = ({google}) => {
-
-
     const [companies, setCompanies] = useState([])
     const {userLocation} = useCurrentLocation()
     const [userData, setUserData] = useState(0)
 
     const [orderPlace, setOrderPlace] = useState()
-    let price;
     const [orderSummary,setOrderSummary] = useState([])
     const [info, setInfo] = useState(
         {
@@ -21,6 +19,7 @@ const CompanyLocation = ({google}) => {
             activeMarker: {},        
             selectedPlace: {}
         })
+    let price;
         
     useEffect(() => {
         async function getCompanies(){
@@ -38,23 +37,17 @@ const CompanyLocation = ({google}) => {
         });
       };
 
-    //   console.log(userLocation)
 
     const orderWater = place => {
         setOrderPlace(place)
       };
-
-    // function calcDistance (fromLat, fromLng, toLat, toLng) {
-    //     return google.maps.geometry.spherical.computeDistanceBetween(
-    //       new google.maps.LatLng(fromLat, fromLng), new google.maps.LatLng(toLat, toLng));
-    //  }
 
      const rad = function(x) {
         return x * Math.PI / 180;
       };
       
       const calcDistance = function(p1, p2, p3, p4) {
-        const R = 6378137; // Earth’s mean radius in meter
+        const R = 6378137; 
         const dLat = rad(p3 - p1);
         const dLong = rad(p4 - p2);
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -62,7 +55,7 @@ const CompanyLocation = ({google}) => {
           Math.sin(dLong / 2) * Math.sin(dLong / 2)
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const d = R * c;
-        return d; // returns the distance in meter
+        return d;
       };
 
     
@@ -94,11 +87,16 @@ const CompanyLocation = ({google}) => {
            place
        }
        setOrderSummary(order => [...order, orderInfo])
-
-
+       setUserData(0)
+       const options = {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: 'Basic cGd1YWN0a3o6amVraGFwem4=' },
+        body: `{"Type":"1","From":"WATRE.IO","To":"233265578245","Content":"Order complete"}`,
+        json: true}
+        axios.post('https://smsc.hubtel.com/v1/messages/send', options).then(res => console.log(res)).catch(err => console.error(err))
     } 
-    // console.log(orderSummary)
-
 
     const returnPrice = (orderPrice,userData) => {
         if (orderPrice && userData){
