@@ -1,6 +1,7 @@
   
 import React, { useEffect, useState } from "react";
 import app from "./firebase.js";
+import './hide.css'
 
 export const AuthContext = React.createContext();
 
@@ -16,7 +17,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   if(pending){
-    return <>Loading...</>
+    return (
+      <div className="hide">
+        <>Loading...</>
+      </div>
+    
+    )
+
   }
 
   return (

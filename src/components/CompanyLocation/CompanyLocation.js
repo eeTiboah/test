@@ -13,6 +13,7 @@ const CompanyLocation = ({google}) => {
     const [userData, setUserData] = useState(0)
 
     const [orderPlace, setOrderPlace] = useState()
+    let price;
     const [orderSummary,setOrderSummary] = useState([])
     const [info, setInfo] = useState(
         {
@@ -43,28 +44,57 @@ const CompanyLocation = ({google}) => {
         setOrderPlace(place)
       };
 
-    function calcDistance (fromLat, fromLng, toLat, toLng) {
-        return google.maps.geometry.spherical.computeDistanceBetween(
-          new google.maps.LatLng(fromLat, fromLng), new google.maps.LatLng(toLat, toLng));
-     }
+    // function calcDistance (fromLat, fromLng, toLat, toLng) {
+    //     return google.maps.geometry.spherical.computeDistanceBetween(
+    //       new google.maps.LatLng(fromLat, fromLng), new google.maps.LatLng(toLat, toLng));
+    //  }
+
+     const rad = function(x) {
+        return x * Math.PI / 180;
+      };
+      
+      const calcDistance = function(p1, p2, p3, p4) {
+        const R = 6378137; // Earth’s mean radius in meter
+        const dLat = rad(p3 - p1);
+        const dLong = rad(p4 - p2);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(rad(p1)) * Math.cos(rad(p3)) *
+          Math.sin(dLong / 2) * Math.sin(dLong / 2)
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c;
+        return d; // returns the distance in meter
+      };
+
+    
 
     const renderMarker = () => {
         return companies.map(comp => {
             const distance = calcDistance(5.926478,-0.973106,comp.companyInfo.lat,comp.companyInfo.lng)
-            console.log(distance)
-            const marker = 
+            const marker = distance <=100 ?
                 <Marker
                 key={ comp.id }
                 onClick = {onMarkerClick}
                 place_={comp}
                 name = { comp.name }
-                position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} />
+                position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} /> :
+                null
             return marker
           })
     }
 
-    const handleSubmit = (event) => {
-       console.log(event)
+    const handleSubmit = (data,price, place) => {
+       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"]
+       const day = days[new Date().getDay()]
+       const newData = data
+       const newPrice = price
+       const orderInfo = {
+           day,
+           data: newData,
+           price: newPrice,
+           place
+       }
+       setOrderSummary(order => [...order, orderInfo])
+
 
     } 
     // console.log(orderSummary)
@@ -73,6 +103,7 @@ const CompanyLocation = ({google}) => {
     const returnPrice = (orderPrice,userData) => {
         if (orderPrice && userData){
             let result = (orderPrice * userData).toFixed(2)
+            price = result
             return result
         }
         return;
@@ -80,11 +111,10 @@ const CompanyLocation = ({google}) => {
 
     return (
         <div>
-            <h1>AQUA TECH</h1>
             {userLocation.lat !==0 || userLocation.lng !==0 ? 
             <Map
             google={google}
-            style={{height: '60vh', width: '100%' }}
+            style={{height: '60vh', width: '70%', position: 'absolute', left: '50px', top: '50px' }}
             zoom={18}
             initialCenter={{ lat: 5.926478, lng: -0.973106}}
             
@@ -128,7 +158,7 @@ const CompanyLocation = ({google}) => {
                             <input type="number" value={userData} id="waterValue" onChange={(e)=>setUserData(e.target.value)} />
                         </div>
                     </div>
-                    <button onClick={handleSubmit}>
+                    <button onClick={() => handleSubmit(userData, price, orderPlace.name)}>
                         Submit
                     </button>
 
@@ -144,7 +174,7 @@ const CompanyLocation = ({google}) => {
                     {orderSummary && orderSummary.map((value, index) => {
                         return (
                             <p key={index}>
-                        {userData} litres of water ordered on {value.dayName} at {value.orderTime}
+                        {value.data} litres of water ordered on {value.day} at {value.price}ghs from {value.place}
                             </p>
                         )
                     })}
