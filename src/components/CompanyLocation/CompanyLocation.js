@@ -88,14 +88,14 @@ const CompanyLocation = ({google}) => {
        }
        setOrderSummary(order => [...order, orderInfo])
        setUserData(0)
-       const options = {
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            Authorization: 'Basic cGd1YWN0a3o6amVraGFwem4=' },
-        body: `{"Type":"1","From":"WATRE.IO","To":"233265578245","Content":"Order complete"}`,
-        json: true}
-        axios.post('https://smsc.hubtel.com/v1/messages/send', options).then(res => console.log(res)).catch(err => console.error(err))
+    //    const options = {
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //         "Access-Control-Allow-Origin": "*",
+    //         Authorization: 'Basic cGd1YWN0a3o6amVraGFwem4=' },
+    //     body: `{"Type":"1","From":"WATRE.IO","To":"233265578245","Content":"Order complete"}`,
+    //     json: true}
+    //     axios.post('https://smsc.hubtel.com/v1/messages/send', options).then(res => console.log(res)).catch(err => console.error(err))
     } 
 
     const returnPrice = (orderPrice,userData) => {
