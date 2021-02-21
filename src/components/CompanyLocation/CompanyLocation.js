@@ -6,6 +6,7 @@ import useCurrentLocation from '../../useCurrentLocation'
 import './CompanyLocation.css'
 import axios from 'axios'
 
+
 const CompanyLocation = ({google}) => {
     const [companies, setCompanies] = useState([])
     const {userLocation} = useCurrentLocation()
@@ -70,12 +71,18 @@ const CompanyLocation = ({google}) => {
                 place_={comp}
                 name = { comp.name }
                 position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} /> :
-                null
+                <Marker
+                key={ comp.id }
+                onClick = {onMarkerClick}
+                place_={comp}
+                name = { comp.name }
+                icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} />
             return marker
           })
     }
 
-    const handleSubmit = (data,price, place) => {
+    const handleSubmit = async (data,price, place) => {
        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"]
        const day = days[new Date().getDay()]
        const newData = data
@@ -95,7 +102,7 @@ const CompanyLocation = ({google}) => {
     //         Authorization: 'Basic cGd1YWN0a3o6amVraGFwem4=' },
     //     body: `{"Type":"1","From":"WATRE.IO","To":"233265578245","Content":"Order complete"}`,
     //     json: true}
-    //     axios.post('https://smsc.hubtel.com/v1/messages/send', options).then(res => console.log(res)).catch(err => console.error(err))
+    //     await axios.post('https://smsc.hubtel.com/v1/messages/send', options).then(res => console.log(res)).catch(err => console.error(err))
     } 
 
     const returnPrice = (orderPrice,userData) => {

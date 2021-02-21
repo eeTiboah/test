@@ -7,7 +7,7 @@ import { AuthContext } from "../../Auth.js";
 const Navbar = () => {
     const handleLogout = () => {
         app.auth().signOut();
-        <Redirect to="/" />;
+        <Redirect to="/home" />;
       };
 
     const { currentUser } = useContext(AuthContext);

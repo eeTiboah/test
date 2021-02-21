@@ -14,6 +14,7 @@ const App = () => {
         <Navbar />
           <PrivateRoute exact path="/order" component={CompanyLocation} />
           <Route exact path='/' component={Hero} />
+          <Route exact path='/home' component={Hero} />
           <Route exact path="/login" component={SignInScreen} />
         </div>
       </Router>
