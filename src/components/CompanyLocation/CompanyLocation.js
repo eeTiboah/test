@@ -21,6 +21,7 @@ const CompanyLocation = ({google}) => {
             selectedPlace: {}
         })
     let price;
+    let newCompanies = [];
         
     useEffect(() => {
         async function getCompanies(){
@@ -65,23 +66,33 @@ const CompanyLocation = ({google}) => {
     const renderMarker = () => {
         return companies.map(comp => {
             const distance = calcDistance(5.926478,-0.973106,comp.companyInfo.lat,comp.companyInfo.lng)
-            const marker = distance <=100 ?
+            if (distance <= 100){
+                newCompanies.push(comp)
+            }
+            const marker = distance <=100 ? (
                 <Marker
                 key={ comp.id }
                 onClick = {onMarkerClick}
                 place_={comp}
                 name = { comp.name }
-                position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} /> :
+                position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} />
+            )
+                :
+
                 <Marker
                 key={ comp.id }
                 onClick = {onMarkerClick}
                 place_={comp}
                 name = { comp.name }
-                icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                icon = "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
                 position = {{lat: comp.companyInfo.lat, lng: comp.companyInfo.lng }} />
             return marker
           })
     }
+
+    newCompanies = newCompanies.map(item => {
+        return item.quantity.sort((a, b) => b - a)
+    })
 
     const handleSubmit = async (data,price, place) => {
        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"]
@@ -117,17 +128,19 @@ const CompanyLocation = ({google}) => {
 
     return (
         <div>
+            <div className="map">
+            <div className="map_item">
             {userLocation.lat !==0 || userLocation.lng !==0 ? 
             <Map
             google={google}
-            style={{height: '60vh', width: '70%', position: 'absolute', left: '50px', top: '50px' }}
-            zoom={18}
+            style={{height: '60vh', width: '45%', position: 'absolute', left: '30px', top: '50px' }}
+            zoom={17}
             initialCenter={{ lat: 5.926478, lng: -0.973106}}
             
             >
                 {renderMarker()}
                 <Marker 
-                    icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                    icon = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                     position={{ lat: 5.926478, lng: -0.973106}}
                 />
                 <InfoWindowEx
@@ -146,12 +159,74 @@ const CompanyLocation = ({google}) => {
                 </InfoWindowEx>
             </Map> 
             : (
-                <p>Loading............</p>
+                <p>Loading....</p>
             )
             }
-            <div className="info_display">
-                <div  className="form-display">
-                {orderPlace &&
+            </div>
+            <>
+            <div className="map_item">
+             {
+                newCompanies && newCompanies.map(item => {
+                    return (
+                        <div className='row' key={item.id}>
+                            <div className='column'>
+                                <div className='blue-column'>
+                                {item.name}
+                                </div>
+                            </div>
+                                <div className='column'>
+                                <div className='green-column'>
+                                {item.quantity}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+             }
+                <p>Legend</p>
+                    <div className='row'>
+                        <div className='column'>
+                            <div className='blue-column'>
+                            <img src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="blue location marker" />
+                            </div>
+                        </div>
+                            <div className='column'>
+                            <div className='green-column'>
+                                User Location
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='column'>
+                            <div className='blue-column'>
+                            <img src="https://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="red location marker" />
+                            </div>
+                        </div>
+                            <div className='column'>
+                            <div className='green-column'>
+                                Suppliers in 100m radius
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='column'>
+                            <div className='blue-column'>
+                            <img src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png" alt="yellow location marker" />
+                            </div>
+                        </div>
+                            <div className='column'>
+                            <div className='green-column'>
+                                Suppliers far from user
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </>
+            </div>
+            <div className='order_stuff summary_row'>
+                        <div className='summary_column'>
+                            <div className='blue-column'>
+                            {orderPlace &&
                     <>
                         <div>
                             <h3>{orderPlace.name} has {orderPlace.quantity} litres of water available</h3>
@@ -172,11 +247,11 @@ const CompanyLocation = ({google}) => {
                 }   
 
                 {(orderPlace && userData!==0) && <p>{userData} * {orderPlace.unit_price} = {returnPrice(orderPlace.unit_price, userData)}ghs</p>}
-                    
-                </div>
-
-                <div className="order-summary">
-                    <h2>Order Summary</h2>
+                            </div>
+                        </div>
+                            <div className='summary_column'>
+                            <div className='green-column'>
+                            <h2>Order Summary</h2>
                         {orderSummary && orderSummary.map((value, index) => {
                             return (
                                 <p key={index}>
@@ -184,8 +259,9 @@ const CompanyLocation = ({google}) => {
                                 </p>
                             )
                         })}
-                </div>
-             </div>
+                            </div>
+                        </div>
+                    </div>
             
         </div>
     )
