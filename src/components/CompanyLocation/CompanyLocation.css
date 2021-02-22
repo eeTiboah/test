@@ -1,9 +1,15 @@
 .form-display{
     position: absolute;
-    top: 80%;
+    top: 90%;
 }
 
 .order-summary{
     position: absolute;
     top: 120%;
+}
+
+.info_display{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }

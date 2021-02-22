@@ -1,13 +1,11 @@
 import React from 'react'
 import './Hero.css'
 import Footer from '../Footer/Footer'
+import {Link} from 'react-router-dom'
 
 const Hero = ()=>{
     return (
-        <>
-             <div id="bg">
-                <img src="assets/images/1.jpg" alt='A lake between two forests' />
-            </div>
+        <div className="page">
             <section className='hero'>
                 <div className="hero_info">
                     <div className="hero_info__text">
@@ -16,16 +14,22 @@ const Hero = ()=>{
                         is too precious to be wasting it screaming because there is a cease in 
                         water flow
                         </p>
-                        <p>
-                            AquaFind finds private water suppliers in your vicinity making it easy for you to
-                            get water to your home
-                        </p>
-                        <p>Join <b>AquaFind</b> for constant <b>water supply</b></p>
+                        
+                        <p>Join <b className="aqua_btn">
+                        <Link to="/order">
+                        AquaFind
+                        </Link>
+                        </b> for constant <b>water supply</b></p>
                     </div>
+                </div>
+                <div className="hero_img">
+                    {/* <div>
+                        <img src="assets/images/back.jpg" alt='A lake with a red metal in the middle' />
+                    </div> */}
                 </div>
             </section>
             <Footer />
-        </>
+        </div>
     )
 }
 

@@ -39,6 +39,7 @@ const CompanyLocation = ({google}) => {
       };
 
 
+
     const orderWater = place => {
         setOrderPlace(place)
       };
@@ -148,41 +149,42 @@ const CompanyLocation = ({google}) => {
                 <p>Loading............</p>
             )
             }
-
-            <div  className="form-display">
-            {orderPlace &&
-                <>
-                    <div>
-                        <h3>{orderPlace.name} has {orderPlace.quantity} litres of water available</h3>
-                        <p>The rate is {orderPlace.unit_price}ghs per litre</p>
-                    </div>
-                    <p>How many litres of water do you want?</p>
-                    <div className="form-info">
+            <div className="info_display">
+                <div  className="form-display">
+                {orderPlace &&
+                    <>
                         <div>
-                            <label htmlFor="waterValue">Quantity</label>
-                            <input type="number" value={userData} id="waterValue" onChange={(e)=>setUserData(e.target.value)} />
+                            <h3>{orderPlace.name} has {orderPlace.quantity} litres of water available</h3>
+                            <p>The rate is {orderPlace.unit_price}ghs per litre</p>
                         </div>
-                    </div>
-                    <button onClick={() => handleSubmit(userData, price, orderPlace.name)}>
-                        Submit
-                    </button>
+                        <p>How many litres of water do you want?</p>
+                        <div className="form-info">
+                            <div>
+                                <label htmlFor="waterValue">Quantity</label>
+                                <input type="number" value={userData} id="waterValue" onChange={(e)=>setUserData(e.target.value)} />
+                            </div>
+                        </div>
+                        <button onClick={() => handleSubmit(userData, price, orderPlace.name)}>
+                            Get Water
+                        </button>
 
-                </>
-            }   
+                    </>
+                }   
 
-            {(orderPlace && userData!==0) && <p>{userData} * {orderPlace.unit_price} = {returnPrice(orderPlace.unit_price, userData)}ghs</p>}
-                
-             </div>
+                {(orderPlace && userData!==0) && <p>{userData} * {orderPlace.unit_price} = {returnPrice(orderPlace.unit_price, userData)}ghs</p>}
+                    
+                </div>
 
-             <div className="order-summary">
-                 <h2>Order Summary</h2>
-                    {orderSummary && orderSummary.map((value, index) => {
-                        return (
-                            <p key={index}>
-                        {value.data} litres of water ordered on {value.day} at {value.price}ghs from {value.place}
-                            </p>
-                        )
-                    })}
+                <div className="order-summary">
+                    <h2>Order Summary</h2>
+                        {orderSummary && orderSummary.map((value, index) => {
+                            return (
+                                <p key={index}>
+                            {value.data} litres of water ordered on {value.day} at {value.price}ghs from {value.place}
+                                </p>
+                            )
+                        })}
+                </div>
              </div>
             
         </div>

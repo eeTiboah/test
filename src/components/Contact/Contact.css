@@ -1,0 +1,23 @@
+.contact{
+    position: absolute;
+    background: #2193b0;  
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0); 
+    background: linear-gradient(to right, #48AAD4, #2193b0); 
+   
+    height: 84vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact_info{
+    position: absolute;
+    top: 50px;
+    width: 40%;
+    margin: 0 100px;
+}
+.head{
+    text-align: center
+}
+

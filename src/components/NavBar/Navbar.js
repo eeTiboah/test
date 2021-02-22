@@ -22,10 +22,18 @@ const Navbar = () => {
                     </Link>
                     <ul className="header_links__ul">
                         <li className="header_links__li">
-                            <NavLink className="header_links__a" to="/order" data-hover="get-water"><span>Get Water</span></NavLink>
+                            <NavLink className="header_links__a" to="/about"><span>ABOUT</span></NavLink>
+                        </li>
+                        <li className="header_links__li">
+                            <NavLink className="header_links__a" to="/contact"><span>CONTACT</span></NavLink>
+                        </li>
+                        <li className="header_links__li">
+                            <NavLink className="header_links__a" to="/order"><span>Get Water</span></NavLink>
                         </li>
                         <div onClick={handleLogout}>
-                            Logout
+                        <li className="header_links__li login">
+                            <NavLink className="login_link" to="/"><span>LOGOUT</span></NavLink>
+                        </li> 
                         </div>
                     </ul>
                 </nav>
@@ -37,8 +45,14 @@ const Navbar = () => {
                 </Link>
                 <ul className="header_links__ul">
                     <li className="header_links__li">
-                        <NavLink className="header_links__a" to="/login" data-hover="login"><span>LOGIN</span></NavLink>
-                    </li> 
+                        <NavLink className="header_links__a" to="/about"><span>ABOUT</span></NavLink>
+                    </li>
+                    <li className="header_links__li">
+                        <NavLink className="header_links__a" to="/contact"><span>CONTACT</span></NavLink>
+                    </li>
+                    <li className="header_links__li login">
+                        <NavLink className="login_link" to="/login"><span>GET STARTED</span></NavLink>
+                    </li>  
                 </ul>
             </nav>
         </header>}

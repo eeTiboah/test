@@ -3,7 +3,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import app from "./firebase.js";
 import { withRouter, Redirect } from "react-router-dom";
 import { AuthContext } from "./Auth.js";
- 
+import './SignIn.css'
 
 const uiConfig = {
   signInFlow: 'popup',
@@ -30,9 +30,8 @@ const SignInScreen = () =>{
     }
 
     return (
-      <div>
-        <h1>My App</h1>
-        <p>Please sign-in:</p>
+      <div className="signin_page">
+        <h3 className="signin_p">Please sign-in:</h3>
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={app.auth()}/>
       </div>
     );

@@ -1,0 +1,16 @@
+.signin_page{
+    position: absolute;
+    background: #2193b0;  
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0); 
+    background: linear-gradient(to right, #48AAD4, #2193b0); 
+   
+    height: 84vh;
+    width: 100%;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.signin_p{
+    text-align: center;
+}
